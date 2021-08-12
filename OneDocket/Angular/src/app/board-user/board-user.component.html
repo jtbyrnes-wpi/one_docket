@@ -1,0 +1,132 @@
+<div class="row">
+<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;" id="sidebar-wrapper">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+      <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+      <span class="fs-4">Home</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page">
+          <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+          Dashboard
+        </a>
+      </li>
+      <li>
+        <a class="nav-link text-white"  style="cursor: pointer;" (click)="open(content)">
+          <svg class="bi me-2" width="16" height="16"></svg>
+          + Add Appointment
+        </a>
+      </li>
+    </ul>
+    <hr>
+  </div>
+
+<div class="container" role="main" style="padding-bottom: 72px; padding-top: 12px;">
+  <ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add Appointment</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="form-group">
+        <h5>Appointment Name</h5>
+        <input class="input-group" type="text" [(ngModel)]="title" #ctrl="ngModel" required placeholder="Enter Appointment Name">
+        <hr>
+        <h5 for="appointmentDate">Select Date</h5>
+
+          <ngb-datepicker #dp [(ngModel)]="date" #ctrl="ngModel" required></ngb-datepicker>
+          <hr>
+          <label>Start Time:</label>
+          <ngb-timepicker [(ngModel)]="startTime" #ctrl="ngModel" required [meridian]="meridian"></ngb-timepicker>
+          <hr>
+          <label>End Time:</label>
+          <ngb-timepicker [(ngModel)]="endTime"  #ctrl="ngModel" required [meridian]="meridian"></ngb-timepicker>
+          <hr>
+          <label>Email:</label>
+          <input class="input-group" type="text" [(ngModel)]="mail" #ctrl="ngModel" required placeholder="example@email.com">
+          <label>Phone Number:</label>
+          <input class="input-group" type="text" [(ngModel)]="number" #ctrl="ngModel" required placeholder="123-456-7890">
+          <label>Details:</label>
+          <input class="input-group" type="text" [(ngModel)]="description" #ctrl="ngModel" required placeholder="Zoom Call">
+
+      </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click'); onSave();">Save</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #view let-modal>
+<div class="modal-header">
+  <h4 class="modal-title" id="view-appointment">Appointment Details</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+    <div class="form-group">
+      <h4>{{name}}</h4>
+      <hr>
+      <h5>Start Time:</h5>
+      <h4>{{begins}}</h4>
+      <h5>End Time:</h5>
+      <h4>{{ends}}</h4>
+      <hr>
+      <h5>Email: </h5>
+      <h5>{{email}}</h5>
+      <hr>
+      <h5>Phone Number:</h5>
+      <h5>{{phoneNumber}}</h5>
+      <hr>
+      <h5>Details:</h5>
+      <h5>{{details}}</h5>
+    </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click');moveAppointment();">Edit</button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click'); removeAppointment();">Remove</button>
+  </div>
+</div>
+</ng-template>
+<ng-template #added let-modal>
+<div class="modal-header">
+  <h4 class="modal-title" id="appointment-added">Appointment Added!</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+    <div class="form-group">
+      <h5>Your Appointment Has Been Added Successfully!</h5>
+      <p>You should be receiving a confirmation email shortly</p>
+      <hr>
+
+    </div>
+</div>
+
+</ng-template>
+<ng-template #invalid let-modal>
+<div class="modal-header">
+  <h4 class="modal-title" id="invalid-url">Invalid Time</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+    <div class="form-group">
+      <h5>Appointment Not Saved</h5>
+      <h5>An Appointment for the Selected Time Already Exists</h5>
+      <p>Please select a valid Time</p>
+      <hr>
+
+    </div>
+</div>
+
+</ng-template>
+
+
+<full-calendar #calendar [options]="calendarOptions" eventClick=viewAppointment(view)></full-calendar>
+</div>
+</div>
